@@ -36,17 +36,7 @@ router.post("/createpost", Login, (req, res) => {
 });
 
 
-router.get("/myposts", Login, (req, res) => {
-  POSTS.find({ postedby: req.user._id }) 
-    .populate("postedby", "_id username")
-    .then(myposts => {
-      res.json(myposts);
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({ error: "Internal server error" });
-    });
-});
+
 
 
 router.put('/likes', Login, async (req, res) => {
@@ -80,6 +70,17 @@ router.put('/unlikes', Login, async (req, res) => {
   }
 });
 
+router.get("/myposts", Login, (req, res) => {
+  POSTS.find({ postedby: req.user._id }) 
+    .populate("postedby", "_id username")
+    .then(myposts => {
+      res.json(myposts);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: "Internal server error" });
+    });
+});
 
 
 
@@ -102,7 +103,7 @@ router.delete('/deleteposts/:postid', Login, async (req, res) => {
   }
 });
 
-// ...
+
 
 router.put("/comments", Login, async (req, res) => {
   const { postid, text } = req.body;

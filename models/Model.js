@@ -20,8 +20,7 @@ const userSchema = new mongoose.Schema({
     },
     followers: [{ type: ObjectId, ref: "USERS" }],
     followings: [{ type: ObjectId, ref: "USERS" }],
-    resetPasswordToken: String, 
-    resetPasswordTokenExpiry: Date, 
+   
 });
 
 mongoose.model("USERS",userSchema);
