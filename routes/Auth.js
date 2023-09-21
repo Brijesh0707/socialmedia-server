@@ -73,4 +73,34 @@ router.post("/signin", async (req, res) => {
     }
 });
 
+
+
+router.post("/forgot-password", async (req, res) => {
+    const { email, password } = req.body;
+  
+    try {
+      if (!email || !password) {
+        throw new Error("Email and password are required");
+      }
+  
+      const user = await USER.findOne({ email });
+  
+      if (!user) {
+        throw new Error("User not found with this email");
+      }
+  
+    
+      const saltRounds = 12;
+      const hash = await bcrypt.hash(password, saltRounds);
+      user.password = hash;
+  
+      await user.save();
+  
+      res.json({ message: "Password updated successfully" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
 module.exports = router;
